@@ -5,9 +5,7 @@ import mss
 import numpy as np
 import asyncio
 
-confirm_image_path = r"C:\Users\np3nm\Documents\PY\robot_checker\box.png"
-sign_image_path = r"C:\Users\np3nm\Documents\PY\test\sign_click\sign.png"
-rabby_image_path = r"C:\Users\np3nm\Documents\PY\test\sign_click\rabby.png"
+confirm_image_path = r".\box.png"
 
 # 다중 모니터 지원을 활성화
 pyautogui.FAILSAFE = False  # 마우스가 화면 끝으로 이동했을 때 종료 방지
@@ -48,18 +46,19 @@ async def find_and_click(image_path, confidence=0.8, monitor_index=1):
         return False
 
 async def main():
-    monitor_to_search = [1, 2, 3]  # 탐색할 모니터 인덱스 리스트
+    monitor_to_search = [1]  # 탐색할 모니터 인덱스 리스트
+    # monitor_to_search = [1, 2, 3]  # 탐색할 모니터 인덱스 리스트
     tasks = []
 
     while True:
         for monitor_index in monitor_to_search:
             # sign.png 비동기 탐지 및 클릭
-            tasks.append(find_and_click(sign_image_path, confidence=0.8, monitor_index=monitor_index))
+            tasks.append(find_and_click(confirm_image_path, confidence=0.8, monitor_index=monitor_index))
 
         # 비동기 작업 실행
         await asyncio.gather(*tasks)
         tasks.clear()  # 작업 리스트 초기화
-        await asyncio.sleep(15)  # 반복 주기 조정
+        await asyncio.sleep(30)  # 반복 주기 조정
 
 if __name__ == "__main__":
     print("Starting in 3 seconds...")
